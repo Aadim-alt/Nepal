@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nepal — Through the Ages</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --crimson: #8B1A1A;
+  --gold: #C9A84C;
+  --gold-light: #E8C97A;
+  --deep: #1A0A00;
+  --parchment: #F5EDD6;
+  --parchment-dark: #E8D9B8;
+  --ink: #2C1810;
+  --sage: #4A6741;
+  --mountain: #6B8FA3;
+  --accent: #D4622A;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Crimson Text', serif;
+  background: var(--deep);
+  color: var(--parchment);
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--deep); }
+::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+/* ─── LOADING SCREEN ─── */
+#loader {
+  position: fixed; inset: 0; background: var(--deep);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  z-index: 9999; transition: opacity 0.8s ease;
+}
+#loader .om {
+  font-size: 5rem; color: var(--gold);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+#loader p {
+  font-family: 'Playfair Display', serif;
+  color: var(--gold-light); font-size: 1.2rem; margin-top: 1rem;
+  letter-spacing: 4px;
+}
+#loader .bar {
+  width: 200px; height: 2px; background: #333;
+  margin-top: 2rem; overflow: hidden; border-radius: 2px;
+}
+#loader .bar-fill {
+  height: 100%; background: var(--gold);
+  animation: load 2s ease forwards;
+}
+@keyframes load { from { width: 0 } to { width: 100% } }
+@keyframes pulse { 0%,100% { transform: scale(1); opacity:1 } 50% { transform: scale(1.1); opacity:0.7 } }
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  padding: 1rem 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  background: linear-gradient(to bottom, rgba(26,10,0,0.95), transparent);
+  backdrop-filter: blur(4px);
+  border-bottom: 1px solid rgba(201,168,76,0.2);
+}
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem; color: var(--gold);
+  font-style: italic; letter-spacing: 1px;
+}
+.nav-links {
+  display: flex; gap: 2rem; list-style: none;
+}
+.nav-links a {
+  color: var(--parchment-dark); text-decoration: none;
+  font-size: 0.9rem; letter-spacing: 2px; text-transform: uppercase;
+  transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--gold); }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+.hamburger span { width: 24px; height: 2px; background: var(--gold); }
+
+/* ─── HERO ─── */
+#hero {
+  height: 100vh; position: relative;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.mountains-bg {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 55%; pointer-events: none;
+}
+.stars {
+  position: absolute; inset: 0; pointer-events: none;
+}
+.star {
+  position: absolute; background: white; border-radius: 50%;
+  animation: twinkle 3s ease-in-out infinite;
+}
+@keyframes twinkle { 0%,100% { opacity:0.3 } 50% { opacity:1 } }
+.hero-content {
+  position: relative; z-index: 2; text-align: center; padding: 2rem;
+}
+.hero-flag {
+  font-size: 4rem; margin-bottom: 1rem;
+  animation: float 4s ease-in-out infinite;
+}
+@keyframes float { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-12px) } }
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3rem, 8vw, 7rem);
+  color: var(--gold);
+  line-height: 0.95;
+  text-shadow: 0 0 60px rgba(201,168,76,0.4);
+}
+.hero-subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  color: var(--parchment-dark);
+  letter-spacing: 6px; text-transform: uppercase;
+  margin-top: 0.5rem; margin-bottom: 2rem;
+}
+.hero-tagline {
+  font-size: 1.1rem; color: var(--parchment-dark);
+  font-style: italic; max-width: 500px; margin: 0 auto 2.5rem;
+  opacity: 0.85;
+}
+.hero-cta {
+  display: inline-block; padding: 0.9rem 2.5rem;
+  border: 1px solid var(--gold); color: var(--gold);
+  text-decoration: none; font-family: 'Playfair Display', serif;
+  font-size: 1rem; letter-spacing: 2px;
+  transition: all 0.3s; position: relative; overflow: hidden;
+}
+.hero-cta::before {
+  content: ''; position: absolute; inset: 0;
+  background: var(--gold); transform: scaleX(0);
+  transform-origin: left; transition: transform 0.3s;
+}
+.hero-cta:hover::before { transform: scaleX(1); }
+.hero-cta span { position: relative; z-index: 1; }
+.hero-cta:hover span { color: var(--deep); }
+.scroll-indicator {
+  position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  color: var(--gold); opacity: 0.6; font-size: 0.8rem; letter-spacing: 2px;
+}
+.scroll-arrow { animation: bounce 2s ease-in-out infinite; }
+@keyframes bounce { 0%,100% { transform: translateY(0) } 50% { transform: translateY(8px) } }
+
+/* ─── SECTION BASE ─── */
+section { padding: 5rem 2rem; max-width: 1200px; margin: 0 auto; }
+.section-label {
+  font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 0.5rem;
+}
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  color: var(--parchment);
+  line-height: 1.1; margin-bottom: 1rem;
+}
+.section-divider {
+  width: 60px; height: 2px; background: var(--gold); margin-bottom: 2rem;
+}
+.fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* ─── FAST FACTS TICKER ─── */
+#ticker {
+  background: var(--crimson); padding: 0.6rem 0;
+  overflow: hidden; white-space: nowrap;
+  border-top: 1px solid var(--gold); border-bottom: 1px solid var(--gold);
+}
+.ticker-track {
+  display: inline-flex; gap: 3rem;
+  animation: ticker 40s linear infinite;
+}
+@keyframes ticker { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+.ticker-item {
+  font-size: 0.85rem; letter-spacing: 1px; color: var(--parchment);
+}
+.ticker-item strong { color: var(--gold-light); }
+
+/* ─── INTERACTIVE TIMELINE ─── */
+#timeline-section {
+  background: linear-gradient(to bottom, var(--deep), #0d1a0a, var(--deep));
+  padding: 5rem 0; width: 100%; max-width: 100%;
+}
+.timeline-header { text-align: center; padding: 0 2rem 3rem; }
+.timeline-scroll-wrapper {
+  overflow-x: auto; padding: 2rem 3rem 3rem;
+  scrollbar-width: thin; scrollbar-color: var(--gold) transparent;
+}
+.timeline-track {
+  display: flex; align-items: center; gap: 0;
+  position: relative; min-width: max-content; padding: 3rem 2rem;
+}
+.timeline-line {
+  position: absolute; top: 50%; left: 0; right: 0;
+  height: 2px; background: linear-gradient(to right, transparent, var(--gold), var(--gold), transparent);
+  transform: translateY(-50%);
+}
+.era-node {
+  position: relative; display: flex; flex-direction: column;
+  align-items: center; cursor: pointer; padding: 0 2rem;
+  transition: transform 0.3s;
+}
+.era-node:hover { transform: scale(1.05); }
+.era-dot {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--deep); border: 3px solid var(--gold);
+  position: relative; z-index: 2;
+  transition: all 0.3s; box-shadow: 0 0 0 0 rgba(201,168,76,0.4);
+}
+.era-node:hover .era-dot, .era-node.active .era-dot {
+  background: var(--gold);
+  box-shadow: 0 0 0 8px rgba(201,168,76,0.2);
+  transform: scale(1.3);
+}
+.era-label {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.9rem; color: var(--gold-light);
+  margin-top: 1rem; text-align: center;
+  white-space: nowrap; max-width: 120px;
+}
+.era-years {
+  font-size: 0.7rem; color: var(--parchment-dark);
+  letter-spacing: 1px; margin-top: 0.3rem;
+}
+.era-node:nth-child(odd) .era-label,
+.era-node:nth-child(odd) .era-years {
+  order: -2; margin-top: 0; margin-bottom: 1rem;
+}
+.era-node:nth-child(odd) .era-dot { order: 0; }
+
+/* ─── ERA DETAIL PANEL ─── */
+#era-panel {
+  max-width: 1200px; margin: 0 auto; padding: 2rem;
+  display: none;
+}
+#era-panel.visible { display: block; }
+.era-detail {
+  background: linear-gradient(135deg, rgba(201,168,76,0.05), rgba(139,26,26,0.08));
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 2px; padding: 3rem;
+  animation: panelIn 0.4s ease;
+}
+@keyframes panelIn { from { opacity:0; transform:translateY(20px) } to { opacity:1; transform:translateY(0) } }
+.era-detail-header {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;
+}
+.era-detail-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem; color: var(--gold);
+}
+.era-detail-period {
+  font-size: 0.85rem; letter-spacing: 3px;
+  color: var(--parchment-dark); text-transform: uppercase;
+}
+.era-tabs {
+  display: flex; gap: 0; border-bottom: 1px solid rgba(201,168,76,0.3);
+  margin-bottom: 2rem; flex-wrap: wrap;
+}
+.era-tab {
+  padding: 0.7rem 1.5rem; background: none; border: none;
+  color: var(--parchment-dark); font-family: 'Crimson Text', serif;
+  font-size: 1rem; cursor: pointer; letter-spacing: 1px;
+  border-bottom: 2px solid transparent; transition: all 0.3s;
+  margin-bottom: -1px;
+}
+.era-tab.active, .era-tab:hover {
+  color: var(--gold); border-bottom-color: var(--gold);
+}
+.tab-content { display: none; }
+.tab-content.active { display: block; animation: fadeTab 0.3s ease; }
+@keyframes fadeTab { from { opacity:0 } to { opacity:1 } }
+.era-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
+.era-stat {
+  background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.2);
+  padding: 1.2rem; text-align: center;
+}
+.era-stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem; color: var(--gold); display: block;
+}
+.era-stat-label { font-size: 0.8rem; letter-spacing: 2px; color: var(--parchment-dark); text-transform: uppercase; }
+.ruler-list { list-style: none; }
+.ruler-list li {
+  padding: 0.8rem 0; border-bottom: 1px solid rgba(201,168,76,0.1);
+  display: flex; gap: 1rem; align-items: baseline;
+}
+.ruler-name { color: var(--gold-light); font-weight: 600; }
+.ruler-years { font-size: 0.85rem; color: var(--parchment-dark); }
+.ruler-note { font-style: italic; font-size: 0.9rem; color: var(--parchment-dark); }
+.achievement-list { list-style: none; }
+.achievement-list li {
+  padding: 0.7rem 0 0.7rem 1.5rem; position: relative;
+  border-bottom: 1px solid rgba(201,168,76,0.1); line-height: 1.6;
+}
+.achievement-list li::before {
+  content: '◆'; position: absolute; left: 0;
+  color: var(--gold); font-size: 0.6rem; top: 1rem;
+}
+
+/* ─── HISTORICAL FIGURES ─── */
+#figures-section { width: 100%; max-width: 100%; background: #0a0502; padding: 5rem 0; }
+.figures-wrapper { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+.figures-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem; margin-top: 2rem;
+}
+.figure-card {
+  background: linear-gradient(135deg, rgba(201,168,76,0.05), rgba(139,26,26,0.05));
+  border: 1px solid rgba(201,168,76,0.2);
+  padding: 1.5rem; cursor: pointer;
+  transition: all 0.3s; position: relative; overflow: hidden;
+}
+.figure-card::before {
+  content: ''; position: absolute; top: 0; left: 0;
+  width: 3px; height: 0; background: var(--gold);
+  transition: height 0.3s;
+}
+.figure-card:hover::before { height: 100%; }
+.figure-card:hover {
+  border-color: var(--gold);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+.figure-icon { font-size: 2.5rem; margin-bottom: 0.8rem; }
+.figure-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem; color: var(--gold-light); margin-bottom: 0.3rem;
+}
+.figure-era { font-size: 0.75rem; letter-spacing: 2px; color: var(--crimson); text-transform: uppercase; margin-bottom: 0.5rem; }
+.figure-desc { font-size: 0.9rem; line-height: 1.5; color: var(--parchment-dark); }
+.figure-modal {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 5000; padding: 2rem; opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+}
+.figure-modal.open { opacity: 1; pointer-events: all; }
+.figure-modal-inner {
+  background: var(--ink); border: 1px solid var(--gold);
+  max-width: 600px; width: 100%; padding: 2.5rem; position: relative;
+  transform: scale(0.9); transition: transform 0.3s;
+  max-height: 80vh; overflow-y: auto;
+}
+.figure-modal.open .figure-modal-inner { transform: scale(1); }
+.modal-close {
+  position: absolute; top: 1rem; right: 1rem;
+  background: none; border: none; color: var(--gold);
+  font-size: 1.5rem; cursor: pointer; line-height: 1;
+}
+.modal-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem; color: var(--gold); margin-bottom: 0.3rem;
+}
+.modal-era { font-size: 0.8rem; letter-spacing: 3px; color: var(--crimson); text-transform: uppercase; margin-bottom: 1.5rem; }
+.modal-body { line-height: 1.8; color: var(--parchment-dark); }
+.modal-body p { margin-bottom: 1rem; }
+.modal-fact {
+  background: rgba(201,168,76,0.1); border-left: 3px solid var(--gold);
+  padding: 1rem 1.2rem; margin-top: 1rem; font-style: italic;
+  color: var(--gold-light);
+}
+
+/* ─── MONUMENTS ─── */
+#monuments-section { padding: 5rem 2rem; max-width: 1200px; margin: 0 auto; }
+.monuments-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem; margin-top: 2rem;
+}
+.monument-card {
+  position: relative; overflow: hidden; cursor: pointer;
+  border: 1px solid rgba(201,168,76,0.2);
+  transition: all 0.4s;
+}
+.monument-card:hover { border-color: var(--gold); transform: scale(1.02); }
+.monument-img {
+  width: 100%; height: 200px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 5rem;
+  position: relative; overflow: hidden;
+}
+.monument-overlay {
+  position: absolute; inset: 0; background: rgba(26,10,0,0.0);
+  transition: background 0.3s;
+  display: flex; align-items: center; justify-content: center;
+}
+.monument-card:hover .monument-overlay { background: rgba(26,10,0,0.6); }
+.monument-read-more {
+  color: var(--gold); font-family: 'Playfair Display', serif;
+  font-size: 0.9rem; letter-spacing: 2px; opacity: 0;
+  transition: opacity 0.3s;
+}
+.monument-card:hover .monument-read-more { opacity: 1; }
+.monument-info { padding: 1.2rem; background: rgba(201,168,76,0.05); }
+.monument-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem; color: var(--gold-light); margin-bottom: 0.3rem;
+}
+.monument-location { font-size: 0.8rem; letter-spacing: 2px; color: var(--crimson); text-transform: uppercase; margin-bottom: 0.5rem; }
+.monument-desc { font-size: 0.9rem; color: var(--parchment-dark); line-height: 1.5; }
+
+/* ─── WARS & TREATIES ─── */
+#wars-section { background: #05100a; padding: 5rem 0; width: 100%; max-width: 100%; }
+.wars-wrapper { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+.wars-list { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem; }
+.war-card {
+  border: 1px solid rgba(201,168,76,0.2);
+  display: grid; grid-template-columns: auto 1fr auto;
+  align-items: center; gap: 2rem; padding: 1.5rem 2rem;
+  background: rgba(201,168,76,0.03);
+  transition: all 0.3s; cursor: pointer;
+}
+.war-card:hover {
+  border-color: rgba(201,168,76,0.5);
+  background: rgba(201,168,76,0.06);
+}
+.war-year {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem; color: var(--gold); min-width: 80px; text-align: center;
+}
+.war-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem; color: var(--parchment); margin-bottom: 0.3rem;
+}
+.war-summary { font-size: 0.9rem; color: var(--parchment-dark); line-height: 1.5; }
+.war-outcome {
+  font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase;
+  padding: 0.3rem 0.8rem; border: 1px solid;
+  white-space: nowrap;
+}
+.war-outcome.victory { color: #4CAF50; border-color: #4CAF50; }
+.war-outcome.defeat { color: var(--crimson); border-color: var(--crimson); }
+.war-outcome.treaty { color: var(--gold); border-color: var(--gold); }
+
+/* ─── CULTURE SECTION ─── */
+#culture-section { padding: 5rem 2rem; max-width: 1200px; margin: 0 auto; }
+.culture-tabs { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
+.culture-tab {
+  padding: 0.6rem 1.4rem; background: none;
+  border: 1px solid rgba(201,168,76,0.3); color: var(--parchment-dark);
+  cursor: pointer; font-family: 'Crimson Text', serif;
+  font-size: 1rem; transition: all 0.3s; letter-spacing: 1px;
+}
+.culture-tab.active, .culture-tab:hover {
+  background: var(--gold); color: var(--deep); border-color: var(--gold);
+}
+.culture-content { display: none; }
+.culture-content.active {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 3rem; animation: fadeTab 0.4s ease;
+}
+.culture-text h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem; color: var(--gold); margin-bottom: 1rem;
+}
+.culture-text p { line-height: 1.8; color: var(--parchment-dark); margin-bottom: 1rem; }
+.culture-facts { list-style: none; }
+.culture-facts li {
+  padding: 0.6rem 0 0.6rem 1.2rem; position: relative;
+  border-bottom: 1px solid rgba(201,168,76,0.1);
+  font-size: 0.95rem; color: var(--parchment-dark); line-height: 1.5;
+}
+.culture-facts li::before { content: '⊹'; position: absolute; left: 0; color: var(--gold); }
+.culture-visual {
+  background: rgba(201,168,76,0.05);
+  border: 1px solid rgba(201,168,76,0.2);
+  padding: 2rem; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center;
+  font-size: 5rem; gap: 1rem;
+}
+.culture-visual-caption {
+  font-size: 0.9rem; color: var(--parchment-dark); font-style: italic;
+}
+
+/* ─── QUIZ ─── */
+#quiz-section { background: #08080a; padding: 5rem 0; width: 100%; max-width: 100%; }
+.quiz-wrapper { max-width: 700px; margin: 0 auto; padding: 0 2rem; }
+#quiz-box {
+  background: rgba(201,168,76,0.05);
+  border: 1px solid rgba(201,168,76,0.3);
+  padding: 2.5rem;
+}
+.quiz-progress { display: flex; gap: 4px; margin-bottom: 2rem; }
+.quiz-pip {
+  flex: 1; height: 3px; background: rgba(201,168,76,0.2);
+  transition: background 0.3s;
+}
+.quiz-pip.done { background: var(--gold); }
+.quiz-pip.current { background: var(--crimson); }
+#quiz-question {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem; color: var(--parchment);
+  margin-bottom: 2rem; line-height: 1.5;
+}
+#quiz-options { display: flex; flex-direction: column; gap: 0.8rem; }
+.quiz-option {
+  background: none; border: 1px solid rgba(201,168,76,0.3);
+  color: var(--parchment-dark); font-family: 'Crimson Text', serif;
+  font-size: 1rem; padding: 1rem 1.5rem; text-align: left;
+  cursor: pointer; transition: all 0.3s; letter-spacing: 0.5px;
+}
+.quiz-option:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.05); }
+.quiz-option.correct { border-color: #4CAF50; background: rgba(76,175,80,0.1); color: #4CAF50; }
+.quiz-option.wrong { border-color: var(--crimson); background: rgba(139,26,26,0.2); color: #ff6b6b; }
+#quiz-feedback {
+  margin-top: 1.5rem; padding: 1rem 1.5rem;
+  border-left: 3px solid var(--gold);
+  font-style: italic; color: var(--parchment-dark);
+  display: none;
+}
+#quiz-next {
+  display: none; margin-top: 1.5rem;
+  background: none; border: 1px solid var(--gold);
+  color: var(--gold); font-family: 'Playfair Display', serif;
+  font-size: 1rem; padding: 0.8rem 2rem; cursor: pointer;
+  letter-spacing: 2px; transition: all 0.3s;
+}
+#quiz-next:hover { background: var(--gold); color: var(--deep); }
+#quiz-score { display: none; text-align: center; padding: 2rem 0; }
+#quiz-score .score-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 5rem; color: var(--gold);
+}
+#quiz-score .score-label { color: var(--parchment-dark); margin-bottom: 1.5rem; }
+#quiz-restart {
+  background: var(--gold); border: none; color: var(--deep);
+  font-family: 'Playfair Display', serif; font-size: 1rem;
+  padding: 0.8rem 2rem; cursor: pointer; letter-spacing: 2px; transition: opacity 0.3s;
+}
+#quiz-restart:hover { opacity: 0.85; }
+.quiz-category {
+  font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--crimson); margin-bottom: 1rem;
+}
+/* ─── AI QUIZ ─── */
+#ai-quiz-section { padding: 5rem 2rem; max-width: 700px; margin: 0 auto; }
+.ai-quiz-box {
+  background: rgba(201,168,76,0.04);
+  border: 1px solid rgba(201,168,76,0.3);
+  padding: 2.5rem;
+}
+.ai-quiz-box h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem; color: var(--gold); margin-bottom: 0.5rem;
+}
+.ai-quiz-box p { color: var(--parchment-dark); margin-bottom: 1.5rem; }
+#ai-ask-input {
+  width: 100%; background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(201,168,76,0.3); color: var(--parchment);
+  font-family: 'Crimson Text', serif; font-size: 1rem;
+  padding: 1rem; resize: vertical; min-height: 80px;
+  outline: none;
+}
+#ai-ask-input:focus { border-color: var(--gold); }
+#ai-ask-btn {
+  margin-top: 1rem; background: var(--crimson); border: none;
+  color: var(--parchment); font-family: 'Playfair Display', serif;
+  font-size: 1rem; padding: 0.8rem 2rem; cursor: pointer;
+  letter-spacing: 2px; transition: opacity 0.3s;
+}
+#ai-ask-btn:hover { opacity: 0.85; }
+#ai-response {
+  margin-top: 1.5rem; padding: 1.5rem;
+  background: rgba(201,168,76,0.06); border: 1px solid rgba(201,168,76,0.2);
+  display: none; line-height: 1.8; color: var(--parchment-dark);
+  font-size: 1rem; animation: fadeTab 0.4s ease;
+}
+#ai-loading {
+  display: none; text-align: center; padding: 2rem;
+  color: var(--gold);
+}
+.loading-dots span { animation: blink 1.4s infinite; font-size: 2rem; }
+.loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+.loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes blink { 0%,80%,100% { opacity:0 } 40% { opacity:1 } }
+
+/* ─── FOOTER ─── */
+footer {
+  background: #050200;
+  border-top: 1px solid rgba(201,168,76,0.2);
+  padding: 3rem 2rem; text-align: center;
+}
+.footer-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem; color: var(--gold);
+  font-style: italic; margin-bottom: 1rem;
+}
+.footer-text { color: var(--parchment-dark); font-size: 0.9rem; opacity: 0.6; }
+.footer-divider { width: 40px; height: 1px; background: var(--gold); margin: 1.5rem auto; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .war-card { grid-template-columns: 1fr; }
+  .culture-content.active { grid-template-columns: 1fr; }
+  .era-detail-header { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="om">🏔️</div>
+  <p>NEPAL — THROUGH THE AGES</p>
+  <div class="bar"><div class="bar-fill"></div></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Nepal — Through the Ages</div>
+  <ul class="nav-links">
+    <li><a href="#timeline-section">Timeline</a></li>
+    <li><a href="#figures-section">Figures</a></li>
+    <li><a href="#monuments-section">Monuments</a></li>
+    <li><a href="#wars-section">Wars</a></li>
+    <li><a href="#culture-section">Culture</a></li>
+    <li><a href="#quiz-section">Quiz</a></li>
+  </ul>
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="stars-canvas" style="position:absolute;inset:0;pointer-events:none;"></canvas>
+  <svg class="mountains-bg" viewBox="0 0 1440 400" preserveAspectRatio="xMidYMax slice">
+    <defs>
+      <linearGradient id="mtn1" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" style="stop-color:#2C3E50"/>
+        <stop offset="100%" style="stop-color:#1A0A00"/>
+      </linearGradient>
+      <linearGradient id="mtn2" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" style="stop-color:#1A2634"/>
+        <stop offset="100%" style="stop-color:#0a0502"/>
+      </linearGradient>
+      <linearGradient id="snow" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" style="stop-color:#E8D9B8;stop-opacity:0.9"/>
+        <stop offset="30%" style="stop-color:#2C3E50;stop-opacity:0"/>
+      </linearGradient>
+    </defs>
+    <!-- Back range -->
+    <polygon points="0,400 0,200 80,120 160,180 240,80 320,150 400,40 480,130 560,60 640,140 720,20 800,110 880,50 960,130 1040,70 1120,140 1200,60 1280,130 1360,90 1440,150 1440,400" fill="url(#mtn2)" opacity="0.7"/>
+    <!-- Snow caps -->
+    <polygon points="400,40 370,90 440,90" fill="url(#snow)" opacity="0.8"/>
+    <polygon points="720,20 685,80 755,80" fill="url(#snow)" opacity="0.9"/>
+    <polygon points="560,60 530,110 590,110" fill="url(#snow)" opacity="0.7"/>
+    <!-- Front range -->
+    <polygon points="0,400 0,280 100,200 200,260 300,160 400,230 500,140 600,220 700,170 800,240 900,160 1000,230 1100,180 1200,250 1300,190 1440,260 1440,400" fill="url(#mtn1)"/>
+  </svg>
+  <div class="hero-content">
+    <div class="hero-flag">🇳🇵</div>
+    <div class="hero-title">NEPAL</div>
+    <div class="hero-subtitle">Through the Ages</div>
+    <p class="hero-tagline">"Where the mountains touch the sky and history breathes through every stone."</p>
+    <a href="#timeline-section" class="hero-cta"><span>Explore History →</span></a>
+  </div>
+  <div class="scroll-indicator">
+    <span>SCROLL</span>
+    <span class="scroll-arrow">↓</span>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div id="ticker">
+  <div class="ticker-track" id="ticker-track"></div>
+</div>
+
+<!-- TIMELINE -->
+<div id="timeline-section">
+  <div class="timeline-header fade-in">
+    <div class="section-label">Explore Chronologically</div>
+    <h2 class="section-title">Interactive Timeline</h2>
+    <div class="section-divider" style="margin:0 auto;"></div>
+    <p style="color:var(--parchment-dark);margin-top:1rem;">Click any era to explore its rulers, achievements, and culture</p>
+  </div>
+  <div class="timeline-scroll-wrapper">
+    <div class="timeline-track" id="timeline-track">
+      <div class="timeline-line"></div>
+    </div>
+  </div>
+  <div id="era-panel">
+    <div class="era-detail" id="era-detail-content"></div>
+  </div>
+</div>
+
+<!-- HISTORICAL FIGURES -->
+<div id="figures-section">
+  <div class="figures-wrapper">
+    <div class="fade-in">
+      <div class="section-label">Notable People</div>
+      <h2 class="section-title">Historical Figures</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="figures-grid" id="figures-grid"></div>
+  </div>
+</div>
+
+<!-- FIGURE MODAL -->
+<div class="figure-modal" id="figure-modal" onclick="closeFigureModal(event)">
+  <div class="figure-modal-inner" id="figure-modal-inner">
+    <button class="modal-close" onclick="closeFigureModalBtn()">✕</button>
+    <div id="figure-modal-content"></div>
+  </div>
+</div>
+
+<!-- MONUMENTS -->
+<section id="monuments-section">
+  <div class="fade-in">
+    <div class="section-label">Heritage & Architecture</div>
+    <h2 class="section-title">Sacred Monuments</h2>
+    <div class="section-divider"></div>
+  </div>
+  <div class="monuments-grid" id="monuments-grid"></div>
+</section>
+
+<!-- WARS & TREATIES -->
+<div id="wars-section">
+  <div class="wars-wrapper">
+    <div class="fade-in">
+      <div class="section-label">Conflicts & Diplomacy</div>
+      <h2 class="section-title">Wars & Treaties</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="wars-list" id="wars-list"></div>
+  </div>
+</div>
+
+<!-- CULTURE -->
+<section id="culture-section">
+  <div class="fade-in">
+    <div class="section-label">Civilization & Society</div>
+    <h2 class="section-title">Culture Through the Ages</h2>
+    <div class="section-divider"></div>
+  </div>
+  <div class="culture-tabs" id="culture-tabs"></div>
+  <div id="culture-contents"></div>
+</section>
+
+<!-- QUIZ -->
+<div id="quiz-section">
+  <div class="quiz-wrapper">
+    <div class="fade-in" style="text-align:center;margin-bottom:2rem;">
+      <div class="section-label">Test Your Knowledge</div>
+      <h2 class="section-title">History Quiz</h2>
+      <div class="section-divider" style="margin:0 auto;"></div>
+    </div>
+    <div id="quiz-box">
+      <div class="quiz-progress" id="quiz-progress"></div>
+      <div class="quiz-category" id="quiz-category"></div>
+      <div id="quiz-question"></div>
+      <div id="quiz-options"></div>
+      <div id="quiz-feedback"></div>
+      <button id="quiz-next" onclick="nextQuestion()">Next Question →</button>
+      <div id="quiz-score">
+        <div class="score-num" id="score-num"></div>
+        <div class="score-label" id="score-label"></div>
+        <button id="quiz-restart" onclick="restartQuiz()">Play Again</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AI QUIZ -->
+<section id="ai-quiz-section">
+  <div class="ai-quiz-box fade-in">
+    <h3>🤖 Ask the AI Historian</h3>
+    <p>Ask any question about Nepali history and get an in-depth AI-powered answer.</p>
+    <textarea id="ai-ask-input" placeholder="e.g. What was the significance of the Treaty of Sugauli? How did Prithvi Narayan Shah unify Nepal?"></textarea>
+    <br>
+    <button id="ai-ask-btn" onclick="askAI()">Ask the Historian →</button>
+    <div id="ai-loading"><div class="loading-dots"><span>•</span><span>•</span><span>•</span></div></div>
+    <div id="ai-response"></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Nepal — Through the Ages</div>
+  <div class="footer-divider"></div>
+  <p class="footer-text">🏔️ Sagarmatha · Lumbini · Kathmandu · A land of ancient civilizations</p>
+  <p class="footer-text" style="margin-top:0.5rem;">Explore. Learn. Remember.</p>
+</footer>
+
+<script>
+// ─── DATA ───────────────────────────────────────────────────
+
+const ERAS = [
+  {
+    id: 'prehistoric',
+    name: 'Prehistoric & Vedic',
+    years: '~10,000–900 BCE',
+    short: 'Before Written History',
+    rulers: [
+      { name: 'Unknown Tribal Chiefs', years: '?', note: 'Neolithic settlements in Kathmandu valley' }
+    ],
+    stats: [{ num: '~10,000', label: 'BCE Earliest Settlement' }, { num: '3', label: 'Major Valleys' }, { num: '∞', label: 'Oral Traditions' }],
+    overview: `Nepal's earliest inhabitants were hunter-gatherers who arrived in the Himalayan foothills around 10,000 BCE. The fertile Kathmandu Valley, then a lake (known as Nagdaha in mythology), gradually drained and became habitable. Archaeological finds at Hadigaon and Deopatan suggest Neolithic habitation. The mythological narratives speak of the draining of the lake by Manjushree, the bodhisattva of wisdom, who sliced the hills with his sword to drain the waters.\n\nThe Vedic peoples migrated into the Indian subcontinent between 1500–1000 BCE, and their influence gradually reached the Himalayan foothills. Early Gopala and Mahishapal dynasties (cow-herder and buffalo-herder clans) are considered semi-mythological rulers who predated the Kirat era.`,
+    achievements: [
+      'Earliest human settlements in the Kathmandu Valley (~10,000 BCE)',
+      'Gopala Dynasty — possibly the first rulers of Nepal',
+      'Mahishapal Dynasty — buffalo herder clans who ruled briefly',
+      'Drained Nagdaha (the ancient lake) to make the valley habitable',
+      'Vedic influence gradually spread from the Indian subcontinent',
+      'Established early agricultural communities in fertile river valleys',
+      'Emergence of early religious traditions and nature worship'
+    ],
+    culture: 'Animistic worship, nature spirits, oral traditions'
+  },
+  {
+    id: 'kirat',
+    name: 'Kirat Period',
+    years: '~900 BCE – 300 CE',
+    short: 'First Recorded Dynasty',
+    rulers: [
+      { name: 'Yalambar', years: '~900 BCE', note: 'First Kirat king; possibly fought in the Mahabharata' },
+      { name: 'Pati', years: '?', note: 'Second Kirat ruler' },
+      { name: 'Bhumi Varman', years: '?', note: 'Last Kirat king' }
+    ],
+    stats: [{ num: '~29', label: 'Kirat Kings' }, { num: '~1200', label: 'Years of Rule' }, { num: '563 BCE', label: 'Buddha Born' }],
+    overview: `The Kirat period is considered the first historically acknowledged dynasty of Nepal, ruling for approximately 1,200 years. The Kiratas were Mongoloid people who came from the east and established a powerful kingdom in the Kathmandu Valley.\n\nThe most significant event of this era was the birth of Siddhartha Gautama — the Buddha — in Lumbini (now in southern Nepal) around 563 BCE. Nepal's first Kirat king, Yalambar, is believed to have participated in the great Mahabharata war on the side of the Kauravas.\n\nThe Kiratas worshipped nature and were expert hunters and warriors. They traded with Tibet to the north and the Gangetic plains to the south. Kirat culture, including their religion Mundhum (an oral scripture), still survives among the Rai and Limbu people of eastern Nepal today.`,
+    achievements: [
+      'Birth of Siddhartha Gautama (the Buddha) at Lumbini, 563 BCE',
+      'Yalambar possibly participated in the Mahabharata war (~1000 BCE)',
+      'Establishment of the first organized kingdom in the Kathmandu Valley',
+      'Development of trade routes between Tibet and the Gangetic plains',
+      'Kirat religion Mundhum — one of Nepal\'s oldest oral scriptures',
+      'Construction of early temples including Pashupatinath (believed to originate here)',
+      'Extensive trade with China via the Himalayan passes',
+      'Emperor Ashoka visited Lumbini around 249 BCE and erected a pillar'
+    ],
+    culture: 'Mundhum oral scripture, nature worship, martial society, trade with Tibet and India'
+  },
+  {
+    id: 'licchavi',
+    name: 'Licchavi Period',
+    years: '300 – 879 CE',
+    short: 'Golden Age of Nepal',
+    rulers: [
+      { name: 'Manadeva I', years: '464–505 CE', note: 'First historically authenticated king; defeated the Licchavis of Vaishali' },
+      { name: 'Shivadeva I', years: '590–604 CE', note: 'Great patron of arts and culture' },
+      { name: 'Amshuvarman', years: '605–621 CE', note: 'Brilliant king; married daughter to Srong-tsen Gampo of Tibet' },
+      { name: 'Narendradeva', years: '641–679 CE', note: 'Restored Licchavi rule after Thakuri interlude' }
+    ],
+    stats: [{ num: '464 CE', label: 'Manadeva\'s Inscription' }, { num: '3', label: 'UNESCO World Heritage Sites Created' }, { num: '639 CE', label: 'Buddhism Enters Tibet via Nepal' }],
+    overview: `The Licchavi period is considered the Golden Age of Nepal. The Licchavis were of Indian origin and brought Hinduism, Sanskrit, and sophisticated governance to the valley. The period is rich with stone inscriptions, sculptures, and temples that still survive today.\n\nNepal's geopolitical significance rose dramatically as it became a bridge between India and Tibet. King Amshuvarman gave his daughter Bhrikuti in marriage to Tibetan Emperor Srong-tsen Gampo — she is credited with introducing Buddhism to Tibet. Araniko, the master architect, traveled to the Mongol court of Kublai Khan and introduced the pagoda architectural style to China.\n\nThe Changu Narayan temple (built 325 CE) is one of the oldest temples in existence. Boudhanath Stupa and many Pashupatinath structures were established or expanded during this era.`,
+    achievements: [
+      'Changu Narayan Temple built (325 CE) — oldest standing temple in Nepal',
+      'Princess Bhrikuti married to Tibetan Emperor Srong-tsen Gampo; Buddhism spreads to Tibet',
+      'Araniko (1244–1306) — master architect who introduced pagoda style to China and Mongolia',
+      'Rich stone inscription culture — over 200 inscriptions from this period survive',
+      'Pashupatinath Temple complex significantly expanded',
+      'Extensive trade and diplomatic ties with Gupta India and Tang China',
+      'Development of Newari art, sculpture, and metalwork tradition',
+      'Introduction of Sanskrit and Hindu administrative systems',
+      'Nepal mentioned in Chinese Tang dynasty records as "kingdom of the south"'
+    ],
+    culture: 'Sanskrit literature, Newar artisanship, Hindu-Buddhist synthesis, stone inscriptions'
+  },
+  {
+    id: 'malla',
+    name: 'Malla Period',
+    years: '1201 – 1769 CE',
+    short: 'Era of Art & Architecture',
+    rulers: [
+      { name: 'Ari Malla', years: '1200–1216', note: 'Founder of the Malla dynasty' },
+      { name: 'Yaksha Malla', years: '1428–1482', note: 'Last unified Malla ruler; divided kingdom among sons' },
+      { name: 'Pratap Malla', years: '1641–1674', note: 'Patron of arts; built Hanuman Dhoka square' },
+      { name: 'Siddhi Narasimha Malla', years: '1619–1661', note: 'Built the Krishna Mandir in Patan' },
+      { name: 'Bhupatindra Malla', years: '1696–1722', note: 'Built the iconic Nyatapola Temple' }
+    ],
+    stats: [{ num: '~570', label: 'Years of Rule' }, { num: '3', label: 'City Kingdoms (Kathmandu, Patan, Bhaktapur)' }, { num: '1000+', label: 'Temples Built' }],
+    overview: `The Malla period saw Nepal reach the pinnacle of artistic and architectural achievement. The valley was divided into three rival city-kingdoms — Kathmandu, Patan (Lalitpur), and Bhaktapur — which competed fiercely in building temples, palaces, and art, inadvertently creating the UNESCO World Heritage Sites we admire today.\n\nThe Malla kings were great patrons of culture, literature, dance, and music. They codified law, established the caste system in Nepal, and promoted both Hinduism and Buddhism. The iconic Durbar Squares of all three cities were built primarily during this period.\n\nHowever, the rivalry between the three kingdoms ultimately led to their downfall. When Prithvi Narayan Shah launched his unification campaign, he found three divided kingdoms unable to unite against a common threat.`,
+    achievements: [
+      'Nyatapola Temple (1702) — tallest temple in Nepal, built by Bhupatindra Malla',
+      'Krishna Mandir in Patan (1636) — built by Siddhi Narasimha Malla',
+      'Hanuman Dhoka Palace complex expanded by Pratap Malla',
+      'Three Durbar Squares — now UNESCO World Heritage Sites',
+      'Codification of Nepalese law (Manav Nyayashastra)',
+      'Development of Newari literature and classical music (Charya Nritya)',
+      'Establishment of chariot festivals — Indra Jatra, Kumari worship codified',
+      'Extensive trade with Tibet, exchanging salt, wool for rice, cotton',
+      'Unique architectural style blending Hindu and Buddhist elements',
+      'Palace of 55 Windows in Bhaktapur — masterpiece of Malla woodcraft'
+    ],
+    culture: 'Temple architecture, Newar festivals (Indra Jatra, Bisket Jatra), classical dance, metalwork'
+  },
+  {
+    id: 'shah',
+    name: 'Shah Unification',
+    years: '1743 – 1846 CE',
+    short: 'Birth of Modern Nepal',
+    rulers: [
+      { name: 'Prithvi Narayan Shah', years: '1743–1775', note: 'Unified Nepal; founder of modern Nepal state' },
+      { name: 'Pratap Singh Shah', years: '1775–1777', note: 'Short reign; son of Prithvi Narayan' },
+      { name: 'Rana Bahadur Shah', years: '1777–1799', note: 'Controversial ruler; abdicated and was later assassinated' },
+      { name: 'Girvan Yuddha Bikram Shah', years: '1799–1816', note: 'Anglo-Nepalese War; Treaty of Sugauli signed' },
+      { name: 'Rajendra Bikram Shah', years: '1816–1847', note: 'Weak king; Rana oligarchy rose during his reign' }
+    ],
+    stats: [{ num: '1768', label: 'Kathmandu Conquered' }, { num: '46', label: 'Petty States Unified' }, { num: '1816', label: 'Treaty of Sugauli' }],
+    overview: `Prithvi Narayan Shah, ruler of the small Gorkha kingdom, had a grand vision: to unite the hundreds of petty states of the Himalayan region into a single kingdom. He spent 27 years — from 1743 to 1769 — methodically conquering and absorbing neighboring kingdoms.\n\nHis strategy combined diplomacy with military power. He first captured Nuwakot (1744) to control the trade route to Tibet, cutting off the valley kingdoms' revenue. He then blockaded the valley for years before capturing Kathmandu during the Indra Jatra festival in 1768, then Patan and Bhaktapur.\n\nPrithvi Narayan Shah famously called Nepal "a yam between two boulders" — referring to China and British India — and pursued a cautious foreign policy of armed neutrality. The Anglo-Nepalese War (1814–1816) ended with the Treaty of Sugauli, under which Nepal lost about one-third of its territory but maintained independence, making it the only South Asian nation never colonized.`,
+    achievements: [
+      'Unification of 46+ petty states into modern Nepal (1743–1769)',
+      'Captured Kathmandu Valley — Kathmandu (1768), Patan, Bhaktapur (1769)',
+      'Established Gorkha as the new capital, later moved to Kathmandu',
+      'Famous "Dibya Upadesh" — divine counsel, a guide for governance',
+      'Anglo-Nepalese War (1814–1816) against British East India Company',
+      'Treaty of Sugauli (1816) — Nepal retained independence; lost Sikkim, Kumaon, Garhwal',
+      'Gurkha soldiers — world-renowned warriors; still serve in British and Indian armies',
+      'Nepal Sambat calendar and Gorkhali language promoted',
+      'Trade agreements with Tibet and India established',
+      'Nepal\'s sovereignty maintained while all surrounding kingdoms fell to colonialism'
+    ],
+    culture: 'Gorkha martial tradition, Nepali language promotion, Hinduism as state religion'
+  },
+  {
+    id: 'rana',
+    name: 'Rana Oligarchy',
+    years: '1846 – 1951 CE',
+    short: 'Century of Autocracy',
+    rulers: [
+      { name: 'Jung Bahadur Rana', years: '1846–1877', note: 'Founder of Rana oligarchy; Kot massacre; visited Europe' },
+      { name: 'Bir Shamsher Rana', years: '1885–1901', note: 'Built Bir Hospital; harsh but developmental ruler' },
+      { name: 'Chandra Shamsher Rana', years: '1901–1929', note: 'Abolished slavery in Nepal (1924); built Singha Durbar' },
+      { name: 'Juddha Shamsher Rana', years: '1932–1945', note: 'Oversaw post-1934 earthquake reconstruction' },
+      { name: 'Mohan Shamsher Rana', years: '1948–1951', note: 'Last Rana PM; overthrown by 1950-51 revolution' }
+    ],
+    stats: [{ num: '104', label: 'Years of Rana Rule' }, { num: '1924', label: 'Slavery Abolished' }, { num: '10,000+', label: 'Nepali Soldiers in WWI' }],
+    overview: `On September 14, 1846, Jung Bahadur Rana orchestrated the Kot Massacre — killing hundreds of nobles and army officers in the royal courtyard — and seized power from the Shah king. He established a hereditary prime ministership, reducing the king to a figurehead. This system, called the Rana oligarchy, would control Nepal for 104 years.\n\nThe Ranas kept Nepal deliberately isolated from the outside world and maintained autocratic rule. Education was limited to the elite, and the general population remained illiterate and impoverished. However, some Rana PMs did implement reforms: Chandra Shamsher abolished slavery in 1924 and built the magnificent Singha Durbar palace.\n\nNepal sent over 200,000 soldiers to fight for Britain in World War I and II. The 1950 revolution, backed by King Tribhuvan who sought asylum in the Indian Embassy, and the Nepali Congress party, overthrew the Rana regime in 1951, ushering in a democratic era.`,
+    achievements: [
+      'Abolition of slavery by Chandra Shamsher (1924) — first South Asian nation to do so',
+      'Singha Durbar — one of Asia\'s largest palaces, built 1904',
+      'Nepal signed Treaty of Friendship with Britain (1923) — sovereignty recognized',
+      'Nepalese Gurkhas: 200,000+ soldiers in World War I & II',
+      'Bir Hospital — first modern hospital in Nepal (1889)',
+      'Trichandra College — first college in Nepal (1918)',
+      'Nepal-India Friendship Treaty (1950)',
+      'Overthrow of Rana regime (1951) — multi-party democracy introduced',
+      'King Tribhuvan declared "Father of the Nation" for ending Rana rule',
+      'Nepal joined the United Nations in 1955'
+    ],
+    culture: 'Isolated feudal society, Rana palaces, classical Nepali poetry and music'
+  },
+  {
+    id: 'modern',
+    name: 'Modern Nepal',
+    years: '1951 – Present',
+    short: 'Democracy & Republic',
+    rulers: [
+      { name: 'King Tribhuvan', years: '1951–1955', note: '"Father of the Nation"; ended Rana rule; introduced democracy' },
+      { name: 'King Mahendra', years: '1955–1972', note: 'Introduced Panchayat system; developed Nepal\'s infrastructure' },
+      { name: 'King Birendra', years: '1972–2001', note: 'Multiparty democracy restored 1990; Royal massacre 2001' },
+      { name: 'B.P. Koirala', years: '1959–1960', note: 'First democratically elected PM; Nepali Congress founder' },
+      { name: 'Girija Prasad Koirala', years: 'Multiple terms', note: 'Crucial in peace process and republican transition' },
+      { name: 'President Ram Chandra Paudel', years: '2023–Present', note: 'Current President of Federal Democratic Republic' }
+    ],
+    stats: [{ num: '2015', label: 'Federal Republic Constitution' }, { num: '1953', label: 'Everest First Summited' }, { num: '2006', label: 'Peace Agreement Signed' }],
+    overview: `After 1951, Nepal entered a turbulent but transformative era. Multiple cycles of democracy, royal autocracy, and political upheaval shaped the nation. The 1990 People's Movement forced King Birendra to accept a multiparty constitutional monarchy.\n\nThe decade-long Maoist insurgency (1996–2006) left 17,000 dead but ended with the Comprehensive Peace Agreement of 2006. In 2008, Nepal abolished the monarchy and became a Federal Democratic Republic. A new constitution was promulgated in 2015 after the devastating earthquake that killed nearly 9,000 people.\n\nOn the world stage, Nepal achieved fame when Tenzing Norgay and Edmund Hillary made the first ascent of Mount Everest on May 29, 1953. Nepal is also home to the birthplace of the Buddha at Lumbini, a UNESCO World Heritage Site. Today, Nepal is a secular federal republic with significant natural and cultural tourism as pillars of its economy.`,
+    achievements: [
+      'First ascent of Mount Everest: Tenzing Norgay & Edmund Hillary, May 29, 1953',
+      'Nepal joins the United Nations (1955)',
+      'Multiparty democracy restored after 1990 People\'s Movement',
+      'Comprehensive Peace Agreement ends Maoist insurgency (2006)',
+      'Monarchy abolished; Nepal becomes Federal Democratic Republic (2008)',
+      'New constitution promulgated (September 20, 2015)',
+      'Earthquake reconstruction — 900,000+ homes rebuilt after 2015 Gorkha earthquake',
+      'Lumbini recognized as UNESCO World Heritage Site (birthplace of Buddha)',
+      'Nepal hosts 8 of the world\'s 14 eight-thousander peaks',
+      'Over 400 Nepali climbers have summited Everest, including Kami Rita Sherpa (29 summits)'
+    ],
+    culture: 'Democratic pluralism, Everest mountaineering culture, diaspora communities, modern Nepali cinema and music'
+  }
+];
+
+const FIGURES = [
+  { icon: '⚔️', name: 'Prithvi Narayan Shah', era: 'Shah Dynasty', years: '1723–1775', desc: 'Unifier of Nepal; founded the modern Nepali state by conquering the Kathmandu Valley.', detail: `Prithvi Narayan Shah was born on January 11, 1723 in Gorkha as the son of Nara Bhupal Shah. From a young age, he harbored the ambition to unify the fragmented hill kingdoms into one nation. He spent 27 years building his army, forging alliances, and systematically capturing key strategic positions.\n\nHis most famous move was capturing the Nuwakot fort in 1744, which cut off the Kathmandu Valley from Tibetan trade. After years of economic blockade and guerrilla warfare, he entered Kathmandu on September 25, 1768 while the city was celebrating Indra Jatra.\n\nHis "Dibya Upadesh" (Divine Counsel) remains a landmark political document. He famously described Nepal as "a yam between two boulders" — a powerful metaphor for his policy of armed neutrality between China and British India.`, fact: 'He personally led the assault on Kirtipur, but was shot in the face and lost several teeth. He returned years later and conquered it.' },
+  { icon: '🏛️', name: 'Araniko', era: 'Licchavi Period', years: '1244–1306', desc: 'Master architect who introduced the pagoda style to China, Mongolia, and Tibet.', detail: `Araniko was born in Patan (Lalitpur) around 1244. At age 17, he was selected by Nepal's king to lead a team of artisans to Tibet to build a golden stupa under commission from the Tibetan Lama Pakpa.\n\nSo impressed was the Mongolian Emperor Kublai Khan with Araniko's talent that he summoned him to his court in Beijing (then Khanbaliq). Araniko spent the rest of his life in China, becoming the imperial court's chief architect and supervising official.\n\nHe designed and built the White Pagoda at Miaoying Temple in Beijing (1271), which still stands today. He introduced the Nepalese pagoda architectural style to China, where it became deeply integrated into East Asian architecture — every pagoda tower in China, Japan, and Korea carries his legacy.`, fact: 'Kublai Khan valued Araniko so highly that he was given the title "Director of all Artisans" at just age 24.' },
+  { icon: '🕊️', name: 'Bhrikuti', era: 'Licchavi Period', years: '~620 CE', desc: 'Licchavi princess who married Tibetan Emperor Srong-tsen Gampo; credited with introducing Buddhism to Tibet.', detail: `Bhrikuti was the daughter of Licchavi King Amshuvarman. Around 639 CE, she was given in marriage to the Tibetan Emperor Srong-tsen Gampo as part of a diplomatic alliance. She brought Buddhist texts, sacred objects, and monks with her to Lhasa.\n\nIn Tibet, she is worshipped as the Green Tara — a form of the goddess of compassion in Tibetan Buddhism. Alongside the Chinese Princess Wencheng (who is considered the White Tara), Bhrikuti is credited as one of the two mothers of Tibetan Buddhism.\n\nThe famous Jokhang Temple in Lhasa, Tibet's holiest shrine, was built partly at her insistence. Her influence permanently transformed Tibet from a shamanistic culture into a Buddhist civilization.`, fact: 'She brought the Akshobhya Buddha statue to Tibet, which is still enshrined in the Jokhang Temple in Lhasa.' },
+  { icon: '🔱', name: 'Jung Bahadur Rana', era: 'Rana Period', years: '1816–1877', desc: 'Founder of the Rana oligarchy; first Nepali to visit Europe; modernizer and autocrat.', detail: `Jung Bahadur Rana was born in 1816 and rose through military ranks to become the most powerful figure in Nepal. On the night of September 14, 1846, he orchestrated the Kot Massacre — luring hundreds of nobles and officers to the royal courtyard and having them killed, seizing power completely.\n\nHe reduced the Shah king to a ceremonial figure and established the Rana hereditary prime ministership. He was the first South Asian ruler to visit Europe (1850), meeting Queen Victoria and Napoleon III, and was deeply impressed by Western governance and military organization.\n\nDespite his ruthless rise to power, Jung Bahadur modernized Nepal's army, codified law with the Muluki Ain (1854), and maintained Nepal's independence during the height of British colonialism.`, fact: 'During his 1850 visit to London, Jung Bahadur was reportedly so popular that crowds followed his carriage through the streets.' },
+  { icon: '📜', name: 'B.P. Koirala', era: 'Modern Nepal', years: '1914–1982', desc: 'First democratically elected Prime Minister of Nepal; founder of Nepali Congress party; writer and statesman.', detail: `Bishweshwar Prasad Koirala was Nepal's greatest democratic leader. He founded the Nepali Congress party in 1947 and led the movement against both Rana oligarchy and royal autocracy. When Nepal held its first free elections in 1959, Nepali Congress won a massive majority and B.P. became Prime Minister.\n\nKing Mahendra dismissed his government in 1960 and jailed B.P. for 8 years. After release, B.P. lived in exile but returned voluntarily in 1976 to face King Birendra, saying "national reconciliation" was more important than personal safety.\n\nBeyond politics, B.P. was a celebrated writer. His novels and short stories exploring social justice, love, and freedom are considered masterpieces of Nepali literature. He died in 1982, revered as a national hero.`, fact: 'While in prison, B.P. wrote extensively. His prison diaries are considered among the finest political memoirs in South Asian literature.' },
+  { icon: '🏔️', name: 'Tenzing Norgay', era: 'Modern Nepal', years: '1914–1986', desc: 'Sherpa mountaineer who, with Edmund Hillary, first summited Mount Everest on May 29, 1953.', detail: `Tenzing Norgay was born in 1914, possibly in the Solo Khumbu region of Nepal (some accounts say Tibet). He was a Sherpa of extraordinary skill and determination who had made 6 previous attempts on Everest before the 1953 expedition.\n\nOn May 29, 1953, at 11:30 AM local time, Tenzing and Edmund Hillary became the first humans to stand on top of the world — the 8,848.86m summit of Mount Everest (Sagarmatha in Nepali, Chomolungma in Tibetan).\n\nTenzing planted flags of India, Nepal, Britain, and the UN on the summit, and left chocolate and biscuits as offerings to the mountain. He became an instant global hero, receiving India's highest civilian honor. He said of the summit: "We've done the bloody thing."`, fact: 'Tenzing kept secret for the rest of his life which of the two — he or Hillary — stepped onto the summit first, saying it was "done as team".' },
+  { icon: '👑', name: 'King Tribhuvan', era: 'Modern Nepal', years: '1906–1955', desc: '"Father of the Nation" — ended Rana autocracy and introduced democracy to Nepal.', detail: `King Tribhuvan Bir Bikram Shah Dev had been a powerless figurehead under the Rana oligarchs his entire life. The Ranas exercised such tight control that even the king's movements were restricted.\n\nIn November 1950, Tribhuvan made a dramatic move: he and his family sought asylum in the Indian Embassy in Kathmandu, then flew to New Delhi. India, newly independent and sympathetic to democracy, supported his return. The Rana government crumbled, and in February 1951, Tribhuvan returned to Nepal.\n\nHe dissolved the Rana system, formed an interim government with Rana and Nepali Congress representation, and began the process of democratic reform. He is honored as "Father of the Nation" for this transformation.`, fact: 'To escape the Ranas, Tribhuvan pretended to go on a hunting trip, then rushed to the Indian Embassy. The Ranas tried to install his grandson as king, but it failed.' },
+  { icon: '🎨', name: 'Arniko (Balbahu)', era: 'Malla Period', years: '~1324 CE', desc: 'Considered the architect who built Nepal\'s 12th century pagoda temples, predecessor to Araniko.', detail: `While Araniko is the most famous, Newar master craftsmen through the Licchavi and Malla periods created a unique architectural tradition. The Newar builders developed the multi-tiered pagoda style that became iconic globally. They built with wood, brick, and terracotta, using elaborate carved windows, struts, and tympanums depicting deities.\n\nThe Newars developed the "Agama" system — a tradition of sacred temple architecture with detailed proportional rules codified in texts. Their metalwork, stone sculpture, and woodcarving traditions were unmatched in the region.\n\nThe peacock windows, brass toranas, and carved wooden struts depicting tantric deities are unique contributions of Newar artisans to world art heritage.`, fact: 'Newar artisans traditionally worked under hereditary guild systems — families specialized in specific crafts for generations.' },
+];
+
+const MONUMENTS = [
+  { emoji: '🕌', name: 'Pashupatinath Temple', location: 'Kathmandu', color: '#8B1A1A', desc: 'Nepal\'s holiest Hindu shrine and UNESCO World Heritage Site. Dedicated to Shiva, built in the 5th century CE. The main temple structure dates to the Licchavi period. Thousands of pilgrims visit daily, especially during Mahashivaratri when 500,000+ devotees attend.', year: '~400 CE', significance: 'Most sacred Hindu site in Nepal' },
+  { emoji: '☸️', name: 'Boudhanath Stupa', location: 'Kathmandu', color: '#2C3E50', desc: 'One of the largest Buddhist stupas in the world. Standing 36 meters high, it was built along the ancient trade route to Tibet. The all-seeing eyes of Buddha gaze from all four directions. It is the center of Tibetan Buddhism outside Tibet and was rebuilt after the 2015 earthquake.', year: '~5th century CE', significance: 'Largest stupa in Nepal; center of Tibetan Buddhism' },
+  { emoji: '🕍', name: 'Swayambhunath (Monkey Temple)', location: 'Kathmandu', color: '#4A6741', desc: 'Built on a hilltop overlooking the Kathmandu Valley, Swayambhunath is over 2,500 years old. The Tibetan name means "sublime trees" referring to the forests that once surrounded it. According to legend, the lotus from which the stupa grew was planted by the Buddha Vipasvi a million years ago.', year: '~460 CE (recorded)', significance: 'Ancient hill-top Buddhist shrine overlooking Kathmandu Valley' },
+  { emoji: '🏯', name: 'Patan Durbar Square', location: 'Lalitpur (Patan)', color: '#C9A84C', desc: 'The ancient royal palace complex of Patan city is one of the finest examples of Newar architecture in the world. The square contains over 55 major temples, courtyards, and statues built by Malla kings over centuries. The Patan Museum here is among the best museums in Asia.', year: '~17th century (main complex)', significance: 'Finest example of Malla-era architecture; UNESCO World Heritage' },
+  { emoji: '🛕', name: 'Nyatapola Temple', location: 'Bhaktapur', color: '#8B6914', desc: 'The tallest temple in Nepal (30 meters) built in just 7 months by King Bhupatindra Malla in 1702. Five pairs of guardian figures flank the stairway — each 10 times stronger than the one below. The deity inside has never been publicly revealed. The temple survived the 1934 and 2015 earthquakes without major damage.', year: '1702 CE', significance: 'Tallest pagoda in Nepal; architectural masterpiece' },
+  { emoji: '🕌', name: 'Changu Narayan Temple', location: 'Bhaktapur District', color: '#2C5D3F', desc: 'Nepal\'s oldest surviving temple dedicated to Vishnu, dating to 325 CE. The Licchavi inscription on the premises (464 CE) is the earliest historical stone inscription found in Nepal. The temple complex is a museum of stone and wood carvings spanning 1,600 years of Nepali art history.', year: '~325 CE', significance: 'Oldest temple in Nepal; UNESCO World Heritage Site' },
+];
+
+const WARS = [
+  { year: '1744', title: 'Battle of Nuwakot', summary: 'Prithvi Narayan Shah defeated the Baise kingdom of Nuwakot, gaining control of the crucial trade route to Tibet. This was the first major military success of his unification campaign.', outcome: 'victory', detail: 'Nuwakot was strategically vital as it controlled the main route between the Kathmandu Valley and Tibet. By capturing it, Prithvi Narayan could cut off the valley\'s trade revenue and begin the economic blockade that would weaken the Malla kingdoms.' },
+  { year: '1767', title: 'Battle of Kirtipur', summary: 'After an earlier defeat (1765) where Prithvi Narayan was wounded, Gorkha forces finally captured the fortress town of Kirtipur. Its population was reportedly punished by having their noses and lips cut off.', outcome: 'victory', detail: 'Kirtipur was the most fortified of the valley towns and resisted two Gorkhali attacks. Its eventual fall opened the path to the three city-kingdoms. The brutal treatment of Kirtipur\'s people remains a dark episode in the unification story.' },
+  { year: '1792', title: 'Sino-Nepalese War', summary: 'Nepal invaded Tibet over trade disputes and coin devaluation by the Tibetans. Chinese Qing dynasty intervened with a 70,000-strong army. Nepal was forced to sign a humiliating treaty and pay tribute to China every 5 years.', outcome: 'defeat', detail: 'Nepal had exploited its role as Tibet\'s silver coin maker, devaluing the coins. Tibet complained to China, which sent a massive army under General Fu Kang\'an all the way to within a few days march of Kathmandu before Nepal sued for peace. The tribute payment continued until 1908.' },
+  { year: '1814–1816', title: 'Anglo-Nepalese War (Gurkha War)', summary: 'The British East India Company went to war with Nepal over border disputes in the Terai. After initial Nepali victories, the British pushed deep into Nepal. The Treaty of Sugauli was signed in 1816, ending the war.', outcome: 'treaty', detail: 'Nepal lost Sikkim, Darjeeling, Kumaon, and Garhwal under the Treaty of Sugauli — about one-third of its territory. However, Nepal retained independence. The British were so impressed by Nepali soldiers that they immediately began recruiting Gurkha regiments, a practice that continues today. Nepal became a buffer state between British India and China.' },
+  { year: '1846', title: 'Kot Massacre', summary: 'Not a war but a pivotal event: Jung Bahadur Rana orchestrated the massacre of hundreds of nobles and officers in the royal armory courtyard (Kot), seizing control of the government and establishing the Rana oligarchy.', outcome: 'treaty', detail: 'Queen Rajya Laxmi summoned chiefs and commanders to the royal courtyard at night, ostensibly to investigate a murder. Jung Bahadur used the confusion to eliminate his rivals. The massacre happened on the night of September 14-15, 1846, and transformed Nepal\'s political landscape entirely for the next 104 years.' },
+  { year: '1950–1951', title: 'Revolution Against Rana Rule', summary: 'The Nepali Congress party, supported by India and King Tribhuvan, launched an armed insurgency against the Rana oligarchy. The movement succeeded in February 1951, ending 104 years of Rana rule.', outcome: 'victory', detail: 'King Tribhuvan\'s asylum in the Indian Embassy was the turning point. India withheld recognition of the Rana government and supported Tribhuvan. The Ranas, isolated and with their grip on power failing, agreed to a tripartite agreement that ended their rule. Nepal entered a new democratic era.' },
+  { year: '1996–2006', title: 'Maoist Insurgency (People\'s War)', summary: 'The Communist Party of Nepal (Maoist) launched an armed insurgency demanding a republic and end to monarchy. Over 17,000 people died in a decade of brutal civil war before the Comprehensive Peace Agreement of 2006.', outcome: 'treaty', detail: 'The Maoists controlled much of the rural countryside at the height of the conflict. The 2005 royal takeover by King Gyanendra united the political parties and Maoists against the monarchy. The 2006 peace agreement led to the Maoists entering politics. Nepal became a republic in 2008, fulfilling one of the Maoists\' key demands.' },
+];
+
+const CULTURE = [
+  {
+    id: 'religion',
+    label: '🕉️ Religion',
+    title: 'Faith & Spirituality',
+    text: `Nepal is the birthplace of the Buddha (Lumbini) and one of the great Hindu-Buddhist civilizations. The country practices a unique syncretic religion where Hindus and Buddhists share temples and deities — Pashupatinath is worshipped by both communities. Nepal was the world's only constitutionally declared Hindu kingdom until 2006.\n\nNepal has four UNESCO-listed religious sites: Pashupatinath, Boudhanath, Swayambhunath, and Lumbini. The living goddess Kumari — a pre-pubescent girl believed to be an incarnation of the divine feminine — is a unique Newar tradition dating to the 17th century.`,
+    facts: [
+      'Lumbini, birthplace of Gautama Buddha (~563 BCE) — UNESCO World Heritage Site',
+      'Pashupatinath — holiest Shiva shrine in the world outside Kashi (Varanasi)',
+      'Kumari tradition: a living goddess selected from Newari community',
+      'Bon religion — ancient Tibetan shamanism — practiced in northern Nepal',
+      'Nepal has 125 distinct ethnic groups with their own religious practices',
+      'Kirat Mundhum — indigenous religion of Rai and Limbu peoples',
+      'Nepal was officially a Hindu kingdom from 1768 to 2006 (238 years)'
+    ],
+    visual: '🕉️', caption: 'Hindu-Buddhist synthesis unique to Nepal'
+  },
+  {
+    id: 'festivals',
+    label: '🎉 Festivals',
+    title: 'Celebrations & Festivals',
+    text: `Nepal celebrates over 50 major festivals each year, more than almost any country on earth. The most famous is Dashain — a 15-day Hindu festival celebrating the victory of good over evil, when the country essentially shuts down. Tihar (Festival of Lights) follows shortly after.\n\nThe Newars of the Kathmandu Valley have the most elaborate festival calendar, with Indra Jatra, Bisket Jatra, Gai Jatra, and hundreds of local deity chariot processions. The Mani Rimdu festival in Everest region and Loshar (Tibetan New Year) are celebrated in high mountain communities.`,
+    facts: [
+      'Dashain: 15-day festival; largest festival; celebrates Durga\'s victory over Mahishasura',
+      'Tihar: Festival of Lights; worships crows, dogs, cows, oxen, and brothers',
+      'Indra Jatra: 8-day festival; the Kumari (living goddess) is paraded through Kathmandu',
+      'Bisket Jatra: Bhaktapur New Year celebration; tug-of-war between communities',
+      'Gai Jatra (Cow Festival): satirical procession; mocking authority since Malla times',
+      'Holi: Spring festival of colors; celebrated vigorously in the Terai',
+      'Buddha Jayanti: Birthday of the Buddha celebrated at Lumbini and Swayambhunath',
+      'Mani Rimdu: Sherpa Buddhist festival at Tengboche monastery near Everest'
+    ],
+    visual: '🎊', caption: 'Nepal celebrates 50+ festivals annually'
+  },
+  {
+    id: 'art',
+    label: '🎨 Art & Architecture',
+    title: 'Art, Craft & Architecture',
+    text: `Newar artisans of the Kathmandu Valley created one of the world's great artistic traditions. Their mastery of stone sculpture, bronze casting (lost-wax method), wood carving, and thangka (Buddhist scroll painting) is legendary. The pagoda architectural style — developed in Nepal — spread to Tibet, China, Japan, and Korea.\n\nThangka painting is a unique art form where Buddhist deities, mandalas, and dharma wheel concepts are painted on cloth using mineral pigments. The Paubha tradition of Newari painting uses even finer detail. The dhime drums, sarangi fiddle, and bansuri flute are iconic Nepali instruments.`,
+    facts: [
+      'Newar lost-wax bronze casting — dating to the 7th century CE — still practiced today',
+      'Thangka painting: Buddhist scroll paintings using mineral pigments on cotton/silk',
+      'Pagoda architecture — invented in Nepal, spread across East and Southeast Asia',
+      'Wood carving: Peacock Window (1497) in Bhaktapur is a masterpiece of woodcraft',
+      'Patan is the craft capital; the Patan Museum has the finest collection of Nepali art',
+      'Dhaka weaving — distinctive hand-woven cloth from Palpa; worn as topi (cap)',
+      'Thanka painting schools still operate in Bhaktapur and Patan today'
+    ],
+    visual: '🖌️', caption: 'Newar art tradition spanning 1,500+ years'
+  },
+  {
+    id: 'language',
+    label: '📖 Language & Literature',
+    title: 'Languages & Written Traditions',
+    text: `Nepal has 123 languages spoken within its borders, making it one of the most linguistically diverse nations on earth. Nepali (derived from Sanskrit, written in Devanagari script) is the lingua franca and official language. Newari (Nepal Bhasa) has a rich literary tradition dating to the 12th century — the oldest known Newari manuscript dates to 1114 CE.\n\nThe tradition of stone inscriptions during the Licchavi period (5th–9th century) created Nepal's earliest written history. Bhanubhakta Acharya translated the Ramayana into Nepali in the 19th century, earning the title "Aadi Kavi" (first poet), and is revered as the father of Nepali literature.`,
+    facts: [
+      '123 languages spoken in Nepal; 10 with more than 100,000 speakers',
+      'Nepali (Gorkhali/Khas Kura) — official language; derived from Sanskrit',
+      'Newari (Nepal Bhasa) — oldest literary tradition; manuscripts dating to 1114 CE',
+      'Devanagari script — used for Nepali, Newari, Maithili, and Sanskrit',
+      'Bhanubhakta Acharya (1814–1868) — "Aadi Kavi"; translated Ramayana into Nepali',
+      'Laxmi Prasad Devkota — "Mahakavi" (great poet); "Muna Madan" is most beloved epic poem',
+      'B.P. Koirala — greatest Nepali fiction writer; novels explore social justice and freedom'
+    ],
+    visual: '📜', caption: 'Nepal Bhasa manuscripts date to 1114 CE'
+  }
+];
+
+const QUIZ_QUESTIONS = [
+  { category: 'Ancient History', q: 'Where was Siddhartha Gautama (the Buddha) born?', opts: ['Varanasi, India', 'Lumbini, Nepal', 'Bodh Gaya, India', 'Kathmandu, Nepal'], ans: 1, exp: 'Siddhartha Gautama was born in Lumbini, in what is now southern Nepal, around 563 BCE. His birthplace is marked by the Ashoka Pillar, erected by Emperor Ashoka who visited in 249 BCE.' },
+  { category: 'Shah Dynasty', q: 'What year did Prithvi Narayan Shah capture Kathmandu, completing the first phase of Nepal\'s unification?', opts: ['1744', '1768', '1775', '1790'], ans: 1, exp: 'Prithvi Narayan Shah captured Kathmandu on September 25, 1768, while the city was celebrating the Indra Jatra festival. He then captured Patan and Bhaktapur in 1769, completing control of the valley.' },
+  { category: 'Licchavi Period', q: 'Which Nepali princess is credited with introducing Buddhism to Tibet after marrying Emperor Srong-tsen Gampo?', opts: ['Kumari Devi', 'Bhrikuti', 'Rajyalaxmi', 'Trailokya'], ans: 1, exp: 'Princess Bhrikuti, daughter of Licchavi King Amshuvarman, married Tibetan Emperor Srong-tsen Gampo around 639 CE. She is worshipped in Tibet as the Green Tara and is credited with establishing Buddhism there.' },
+  { category: 'Architecture', q: 'Which temple, built in 1702, is the tallest pagoda in Nepal at 30 meters?', opts: ['Pashupatinath Temple', 'Changu Narayan', 'Nyatapola Temple', 'Krishna Mandir'], ans: 2, exp: 'The Nyatapola Temple in Bhaktapur was built by King Bhupatindra Malla in just 7 months in 1702. At 30 meters, it is the tallest pagoda in Nepal and remarkably survived both the 1934 and 2015 earthquakes.' },
+  { category: 'Rana Period', q: 'Which Rana Prime Minister abolished slavery in Nepal in 1924?', opts: ['Jung Bahadur Rana', 'Bir Shamsher Rana', 'Chandra Shamsher Rana', 'Juddha Shamsher Rana'], ans: 2, exp: 'Chandra Shamsher Rana officially abolished slavery in Nepal on November 27, 1924. Nepal was the first country in South Asia to do so. An estimated 50,000 to 60,000 slaves were freed by this decree.' },
+  { category: 'Modern Nepal', q: 'Who were the first two people to summit Mount Everest on May 29, 1953?', opts: ['Reinhold Messner & Peter Habeler', 'Tenzing Norgay & Edmund Hillary', 'Babu Chiri Sherpa & Rob Hall', 'Kami Rita Sherpa & Peter Hillary'], ans: 1, exp: 'Tenzing Norgay (a Sherpa from Nepal) and Sir Edmund Hillary (from New Zealand) became the first humans to summit Mount Everest on May 29, 1953, at 11:30 AM local time.' },
+  { category: 'Kirat Period', q: 'Which Kirat king is believed to have participated in the legendary Mahabharata war?', opts: ['Pati', 'Bhumi Varman', 'Yalambar', 'Humati'], ans: 2, exp: 'Yalambar, the first Kirat king of Nepal, is said in legend to have participated in the Mahabharata war. According to tradition, Krishna (in disguise) killed Yalambar to prevent him from potentially disrupting the balance of the war.' },
+  { category: 'Treaties & Wars', q: 'What major territorial consequence did Nepal face after the Anglo-Nepalese War (1814–1816)?', opts: ['Lost the Kathmandu Valley', 'Lost approximately one-third of its territory including Sikkim and Kumaon', 'Became a British protectorate', 'Lost only Darjeeling'], ans: 1, exp: 'The Treaty of Sugauli (1816) forced Nepal to cede Sikkim, Darjeeling, Kumaon, and Garhwal — roughly one-third of its territory. However, Nepal remained an independent state, making it unique in South Asia as it was never colonized.' },
+  { category: 'Culture', q: 'What is the name of the oral scripture/religion of the Kirat (Rai and Limbu) people of Nepal?', opts: ['Bon', 'Mundhum', 'Kiratism', 'Kirant Dharma'], ans: 1, exp: 'Mundhum is the sacred oral scripture of the Kirat people (Rai and Limbu) of eastern Nepal. It contains their cosmology, creation myths, laws, and rituals. It is one of the oldest living religious traditions in Nepal.' },
+  { category: 'Modern Nepal', q: 'In what year did Nepal officially become a Federal Democratic Republic?', opts: ['2006', '2007', '2008', '2015'], ans: 2, exp: 'Nepal was officially declared a Federal Democratic Republic on May 28, 2008, when the newly elected Constituent Assembly abolished the 240-year-old Shah monarchy at its first meeting. This ended the reign of King Gyanendra.' },
+];
+
+// ─── TICKER ─────────────────────────────────────────────────
+
+const FACTS = [
+  '<strong>563 BCE</strong> — Buddha born in Lumbini, Nepal',
+  '<strong>~900 BCE</strong> — Kirat dynasty rules Kathmandu Valley',
+  '<strong>1244</strong> — Araniko introduces pagoda architecture to China',
+  '<strong>1768</strong> — Prithvi Narayan Shah captures Kathmandu',
+  '<strong>1816</strong> — Treaty of Sugauli; Nepal retains independence',
+  '<strong>1924</strong> — Slavery abolished by Chandra Shamsher',
+  '<strong>1951</strong> — End of Rana oligarchy; democracy introduced',
+  '<strong>1953</strong> — Tenzing Norgay & Hillary summit Everest',
+  '<strong>2008</strong> — Nepal becomes Federal Democratic Republic',
+  '<strong>8 of 14</strong> — Eight-thousander peaks are in Nepal',
+  '<strong>123 languages</strong> — spoken within Nepal\'s borders',
+  '<strong>7 UNESCO</strong> — World Heritage Sites in Nepal',
+];
+
+function initTicker() {
+  const track = document.getElementById('ticker-track');
+  const doubled = [...FACTS, ...FACTS];
+  track.innerHTML = doubled.map(f => `<span class="ticker-item">⊹ ${f}</span>`).join('');
+}
+
+// ─── STARS ───────────────────────────────────────────────────
+
+function initStars() {
+  const canvas = document.getElementById('stars-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+  for (let i = 0; i < 200; i++) {
+    const x = Math.random() * canvas.width;
+    const y = Math.random() * canvas.height * 0.7;
+    const r = Math.random() * 1.5;
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255,255,255,${Math.random() * 0.8 + 0.2})`;
+    ctx.fill();
+  }
+}
+
+// ─── TIMELINE ───────────────────────────────────────────────
+
+function buildTimeline() {
+  const track = document.getElementById('timeline-track');
+  ERAS.forEach((era, i) => {
+    const node = document.createElement('div');
+    node.className = 'era-node';
+    node.setAttribute('data-id', era.id);
+    const above = i % 2 === 0;
+    node.innerHTML = `
+      ${above ? `<div class="era-label">${era.name}</div><div class="era-years">${era.years}</div>` : ''}
+      <div class="era-dot"></div>
+      ${!above ? `<div class="era-label">${era.name}</div><div class="era-years">${era.years}</div>` : ''}
+    `;
+    node.onclick = () => showEra(era.id);
+    track.appendChild(node);
+  });
+}
+
+function showEra(id) {
+  const era = ERAS.find(e => e.id === id);
+  if (!era) return;
+  document.querySelectorAll('.era-node').forEach(n => n.classList.remove('active'));
+  document.querySelector(`[data-id="${id}"]`).classList.add('active');
+  const panel = document.getElementById('era-panel');
+  const content = document.getElementById('era-detail-content');
+  panel.classList.add('visible');
+  content.innerHTML = `
+    <div class="era-detail-header">
+      <div>
+        <div class="era-detail-title">${era.name}</div>
+        <div class="era-detail-period">${era.years} — ${era.short}</div>
+      </div>
+    </div>
+    <div class="era-tabs">
+      <button class="era-tab active" onclick="switchTab(this,'tab-overview')">Overview</button>
+      <button class="era-tab" onclick="switchTab(this,'tab-rulers')">Rulers</button>
+      <button class="era-tab" onclick="switchTab(this,'tab-achievements')">Achievements</button>
+      <button class="era-tab" onclick="switchTab(this,'tab-stats')">Key Facts</button>
+    </div>
+    <div id="tab-overview" class="tab-content active">
+      <p style="line-height:1.9;color:var(--parchment-dark);white-space:pre-line;">${era.overview}</p>
+      <p style="margin-top:1.2rem;font-style:italic;color:var(--gold-light);">Culture: ${era.culture}</p>
+    </div>
+    <div id="tab-rulers" class="tab-content">
+      <ul class="ruler-list">
+        ${era.rulers.map(r => `<li><span class="ruler-name">${r.name}</span><span class="ruler-years">${r.years}</span><span class="ruler-note">— ${r.note}</span></li>`).join('')}
+      </ul>
+    </div>
+    <div id="tab-achievements" class="tab-content">
+      <ul class="achievement-list">
+        ${era.achievements.map(a => `<li>${a}</li>`).join('')}
+      </ul>
+    </div>
+    <div id="tab-stats" class="tab-content">
+      <div class="era-grid">
+        ${era.stats.map(s => `<div class="era-stat"><span class="era-stat-num">${s.num}</span><span class="era-stat-label">${s.label}</span></div>`).join('')}
+      </div>
+    </div>
+  `;
+  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function switchTab(btn, tabId) {
+  btn.closest('.era-detail').querySelectorAll('.era-tab').forEach(t => t.classList.remove('active'));
+  btn.closest('.era-detail').querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(tabId).classList.add('active');
+}
+
+// ─── FIGURES ────────────────────────────────────────────────
+
+function buildFigures() {
+  const grid = document.getElementById('figures-grid');
+  grid.innerHTML = FIGURES.map((f, i) => `
+    <div class="figure-card fade-in" onclick="showFigure(${i})">
+      <div class="figure-icon">${f.icon}</div>
+      <div class="figure-name">${f.name}</div>
+      <div class="figure-era">${f.era} · ${f.years}</div>
+      <div class="figure-desc">${f.desc}</div>
+    </div>
+  `).join('');
+}
+
+function showFigure(i) {
+  const f = FIGURES[i];
+  document.getElementById('figure-modal-content').innerHTML = `
+    <div class="modal-title">${f.icon} ${f.name}</div>
+    <div class="modal-era">${f.era} · ${f.years}</div>
+    <div class="modal-body">
+      <p style="white-space:pre-line;">${f.detail}</p>
+      <div class="modal-fact">💡 Did You Know: ${f.fact}</div>
+    </div>
+  `;
+  document.getElementById('figure-modal').classList.add('open');
+}
+
+function closeFigureModal(e) {
+  if (e.target === document.getElementById('figure-modal')) document.getElementById('figure-modal').classList.remove('open');
+}
+function closeFigureModalBtn() { document.getElementById('figure-modal').classList.remove('open'); }
+
+// ─── MONUMENTS ──────────────────────────────────────────────
+
+function buildMonuments() {
+  const grid = document.getElementById('monuments-grid');
+  grid.innerHTML = MONUMENTS.map(m => `
+    <div class="monument-card fade-in">
+      <div class="monument-img" style="background:${m.color}22;">
+        <span style="filter:drop-shadow(0 4px 8px rgba(0,0,0,0.5));">${m.emoji}</span>
+        <div class="monument-overlay"><span class="monument-read-more">LEARN MORE</span></div>
+      </div>
+      <div class="monument-info">
+        <div class="monument-name">${m.name}</div>
+        <div class="monument-location">${m.location} · Est. ${m.year}</div>
+        <div class="monument-desc">${m.desc}</div>
+        <div style="margin-top:0.8rem;font-size:0.8rem;letter-spacing:1px;color:var(--gold);font-style:italic;">${m.significance}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ─── WARS ────────────────────────────────────────────────────
+
+function buildWars() {
+  const list = document.getElementById('wars-list');
+  list.innerHTML = WARS.map(w => `
+    <div class="war-card fade-in" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='block'?'none':'block'">
+      <div class="war-year">${w.year}</div>
+      <div>
+        <div class="war-title">${w.title}</div>
+        <div class="war-summary">${w.summary}</div>
+      </div>
+      <div class="war-outcome ${w.outcome}">${w.outcome.toUpperCase()}</div>
+    </div>
+    <div style="display:none;padding:1.2rem 2rem 1.5rem;background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-top:none;color:var(--parchment-dark);line-height:1.8;font-size:0.95rem;">${w.detail}</div>
+  `).join('');
+}
+
+// ─── CULTURE ────────────────────────────────────────────────
+
+function buildCulture() {
+  const tabs = document.getElementById('culture-tabs');
+  const contents = document.getElementById('culture-contents');
+  tabs.innerHTML = CULTURE.map((c, i) => `
+    <button class="culture-tab ${i===0?'active':''}" onclick="switchCulture(this,'cult-${c.id}')">${c.label}</button>
+  `).join('');
+  contents.innerHTML = CULTURE.map((c, i) => `
+    <div id="cult-${c.id}" class="culture-content ${i===0?'active':''}">
+      <div class="culture-text">
+        <h3>${c.title}</h3>
+        <p style="white-space:pre-line;">${c.text}</p>
+        <ul class="culture-facts">${c.facts.map(f=>`<li>${f}</li>`).join('')}</ul>
+      </div>
+      <div class="culture-visual">
+        <span style="font-size:6rem;">${c.visual}</span>
+        <div class="culture-visual-caption">${c.caption}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function switchCulture(btn, id) {
+  document.querySelectorAll('.culture-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.culture-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+// ─── QUIZ ────────────────────────────────────────────────────
+
+let quizState = { current: 0, score: 0, answered: false, questions: [] };
+
+function shuffleArray(arr) { return [...arr].sort(() => Math.random() - 0.5); }
+
+function initQuiz() {
+  quizState.questions = shuffleArray(QUIZ_QUESTIONS).slice(0, 8);
+  quizState.current = 0; quizState.score = 0;
+  document.getElementById('quiz-score').style.display = 'none';
+  document.getElementById('quiz-question').style.display = 'block';
+  document.getElementById('quiz-options').style.display = 'flex';
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const { questions, current } = quizState;
+  if (current >= questions.length) { showScore(); return; }
+  const q = questions[current];
+  quizState.answered = false;
+  const pips = document.getElementById('quiz-progress');
+  pips.innerHTML = questions.map((_, i) => `<div class="quiz-pip ${i < current ? 'done' : i === current ? 'current' : ''}"></div>`).join('');
+  document.getElementById('quiz-category').textContent = q.category;
+  document.getElementById('quiz-question').textContent = q.q;
+  document.getElementById('quiz-options').innerHTML = q.opts.map((o, i) => `<button class="quiz-option" onclick="answerQuiz(${i})">${o}</button>`).join('');
+  document.getElementById('quiz-feedback').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+}
+
+function answerQuiz(idx) {
+  if (quizState.answered) return;
+  quizState.answered = true;
+  const q = quizState.questions[quizState.current];
+  const opts = document.querySelectorAll('.quiz-option');
+  opts.forEach(o => o.disabled = true);
+  opts[idx].classList.add(idx === q.ans ? 'correct' : 'wrong');
+  if (idx !== q.ans) opts[q.ans].classList.add('correct');
+  if (idx === q.ans) quizState.score++;
+  const fb = document.getElementById('quiz-feedback');
+  fb.style.display = 'block';
+  fb.innerHTML = (idx === q.ans ? '✓ Correct! ' : '✗ Incorrect. ') + q.exp;
+  document.getElementById('quiz-next').style.display = 'inline-block';
+}
+
+function nextQuestion() {
+  quizState.current++;
+  renderQuestion();
+}
+
+function showScore() {
+  document.getElementById('quiz-question').style.display = 'none';
+  document.getElementById('quiz-options').style.display = 'none';
+  document.getElementById('quiz-feedback').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+  const s = document.getElementById('quiz-score');
+  s.style.display = 'block';
+  const pct = Math.round((quizState.score / quizState.questions.length) * 100);
+  document.getElementById('score-num').textContent = `${quizState.score}/${quizState.questions.length}`;
+  let msg = pct >= 80 ? '🏆 Excellent! You truly know Nepal\'s history!' :
+            pct >= 60 ? '📚 Good knowledge! Keep exploring!' :
+            pct >= 40 ? '🌱 A good start! There\'s more to discover.' :
+                        '🔍 Nepal\'s history is vast — dive deeper!';
+  document.getElementById('score-label').textContent = msg;
+}
+
+function restartQuiz() { initQuiz(); }
+
+// ─── AI HISTORIAN ─────────────────────────────────────────────
+
+async function askAI() {
+  const question = document.getElementById('ai-ask-input').value.trim();
+  if (!question) return;
+  document.getElementById('ai-loading').style.display = 'block';
+  document.getElementById('ai-response').style.display = 'none';
+  document.getElementById('ai-ask-btn').disabled = true;
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: `You are a knowledgeable historian specializing in Nepali history, culture, and civilization. You have deep expertise spanning prehistoric Nepal, the Kirat period, Licchavi golden age, Malla era, Shah unification, Rana oligarchy, and modern Nepal. Provide rich, accurate, engaging answers. Use specific dates, names, and context. Format your response with clear paragraphs. Be concise but comprehensive (150-300 words). Start your answer directly without preamble.`,
+        messages: [{ role: 'user', content: question }]
+      })
+    });
+    const data = await resp.json();
+    const text = data.content?.map(c => c.text || '').join('') || 'Unable to retrieve answer.';
+    document.getElementById('ai-response').style.display = 'block';
+    document.getElementById('ai-response').textContent = text;
+  } catch (e) {
+    document.getElementById('ai-response').style.display = 'block';
+    document.getElementById('ai-response').textContent = 'Unable to connect to the AI historian. Please try again.';
+  }
+  document.getElementById('ai-loading').style.display = 'none';
+  document.getElementById('ai-ask-btn').disabled = false;
+}
+
+document.getElementById('ai-ask-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && e.ctrlKey) askAI();
+});
+
+// ─── SCROLL ANIMATIONS ───────────────────────────────────────
+
+function initScrollAnimations() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+}
+
+// ─── LOADER ──────────────────────────────────────────────────
+
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    const loader = document.getElementById('loader');
+    loader.style.opacity = '0';
+    setTimeout(() => { loader.style.display = 'none'; }, 800);
+  }, 2200);
+  initStars();
+  initTicker();
+  buildTimeline();
+  buildFigures();
+  buildMonuments();
+  buildWars();
+  buildCulture();
+  initQuiz();
+  setTimeout(initScrollAnimations, 500);
+});
+
+function toggleMenu() {
+  const links = document.querySelector('.nav-links');
+  links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+  links.style.flexDirection = 'column';
+  links.style.position = 'absolute';
+  links.style.top = '60px'; links.style.right = '1rem';
+  links.style.background = 'var(--ink)';
+  links.style.padding = '1rem';
+  links.style.border = '1px solid rgba(201,168,76,0.3)';
+}
+</script>
+</body>
+</html>
